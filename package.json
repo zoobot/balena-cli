@@ -52,7 +52,8 @@
     "watch": "gulp watch",
     "prettify": "prettier --write \"{lib,tests,automation,typings}/**/*.ts\" --config ./node_modules/resin-lint/config/.prettierrc",
     "lint": "resin-lint lib/ tests/ && resin-lint --typescript automation/ lib/ typings/ tests/",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "prepare": "npm run build"
   },
   "keywords": [
     "balena",
