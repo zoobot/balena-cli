@@ -1001,13 +1001,17 @@ support) please check:
 
 ### Options
 
-#### --port, -p &#60;port&#62;
-
-SSH gateway port
-
 #### --verbose, -v
 
 Increase verbosity
+
+#### --gateway, -x
+
+Use SSH gateway (required on BalenaOS < 2.0.0)
+
+#### --port, -p &#60;port&#62;
+
+SSH gateway port
 
 #### --noproxy
 
