@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import amplitudePlugin from '@analytics/amplitude-node';
+import Analytics from 'analytics';
 import BalenaSdk = require('balena-sdk');
 import Promise = require('bluebird');
 import _ = require('lodash');
@@ -21,6 +23,20 @@ import Mixpanel = require('mixpanel');
 import Raven = require('raven');
 
 import packageJSON = require('../package.json');
+
+const getAnalytics = _.once(() => {
+	return new Analytics({
+		plugins: [
+			amplitudePlugin({
+				apiKey: '53d3fefc441f8d7cf553bd89ca27174b', // TODO: set balena-main instead.
+				options: {
+					// TODO: Set data.balena-cloud.com/amplitude
+					errorReporter: console.error
+				},
+			}),
+		],
+	});
+});
 
 const getBalenaSdk = _.once(() => BalenaSdk.fromSharedOptions());
 const getMixpanel = _.once<any>(() => {
@@ -38,8 +54,9 @@ export function trackCommand(commandSignature: string) {
 		balenaUrl: balena.settings.get('balenaUrl'),
 		username: balena.auth.whoami().catchReturn(undefined),
 		mixpanel: getMixpanel(),
+		analytics: getAnalytics(),
 	})
-		.then(({ username, balenaUrl, mixpanel }) => {
+		.then(({ username, balenaUrl, mixpanel, analytics }) => {
 			return Promise.try(() => {
 				Raven.mergeContext({
 					user: {
@@ -47,6 +64,21 @@ export function trackCommand(commandSignature: string) {
 						username,
 					},
 				});
+
+				if (username) {
+					analytics.identify(username);
+					console.log('identify as', username);
+				}
+
+				analytics.track(`[CLI] ${commandSignature}`, {
+					version: packageJSON.version,
+					node: process.version,
+					arch: process.arch,
+					balenaUrl, // e.g. 'balena-cloud.com' or 'balena-staging.com'
+					platform: process.platform,
+				});
+				console.log('new tracking done');
+
 				// commandSignature is a string like, for example:
 				//     "push <applicationOrDevice>"
 				// That's literally so: "applicationOrDevice" is NOT replaced with
