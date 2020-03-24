@@ -25,10 +25,10 @@ import Command from '../../command';
 
 import { ExpectedError } from '../../errors';
 import * as cf from '../../utils/common-flags';
+import { findBootPartitionIndex } from '../../utils/image';
 import { getBalenaSdk } from '../../utils/lazy';
 import { CommandHelp } from '../../utils/oclif-utils';
 
-const BOOT_PARTITION = 1;
 const CONNECTIONS_FOLDER = '/system-connections';
 
 interface FlagsDef {
@@ -247,6 +247,7 @@ export default class OsConfigureCmd extends Command {
 		);
 
 		if (options['system-connection']) {
+			const bootPartition = await findBootPartitionIndex(image);
 			const files = await Bluebird.map(
 				options['system-connection'],
 				async filePath => {
@@ -264,7 +265,7 @@ export default class OsConfigureCmd extends Command {
 				await imagefs.writeFile(
 					{
 						image,
-						partition: BOOT_PARTITION,
+						partition: bootPartition,
 						path: path.join(CONNECTIONS_FOLDER, name),
 					},
 					content,

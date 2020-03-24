@@ -14,10 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ###
 
-BOOT_PARTITION = 1
 CONNECTIONS_FOLDER = '/system-connections'
 
-getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
+getConfigurationSchema = (bootPartition, connnectionFileName = 'resin-wifi') ->
 	mapper: [
 		{
 			template:
@@ -53,12 +52,12 @@ getConfigurationSchema = (connnectionFileName = 'resin-wifi') ->
 				path: CONNECTIONS_FOLDER.slice(1)
 				# Reconfix still uses the older resin-image-fs, so still needs an
 				# object-based partition definition.
-				partition: BOOT_PARTITION
+				partition: bootPartition
 		config_json:
 			type: 'json'
 			location:
 				path: 'config.json'
-				partition: BOOT_PARTITION
+				partition: bootPartition
 
 inquirerOptions = (data) -> [
 	{
@@ -141,50 +140,53 @@ CONNECTION_FILE = '''
 * otherwise, the new file is created
 ###
 prepareConnectionFile = (target) ->
+	Promise = require('bluebird')
 	_ = require('lodash')
 	imagefs = require('resin-image-fs')
+	imageUtils = require('../../utils/image')
+	Promise.resolve(imageUtils.findBootPartitionIndex(target))
+	.then (bootPartition) ->
+		imagefs.listDirectory
+			image: target
+			partition: bootPartition
+			path: CONNECTIONS_FOLDER
+		.then (files) ->
+			# The required file already exists
+			if _.includes(files, 'resin-wifi')
+				return null
 
-	imagefs.listDirectory
-		image: target
-		partition: BOOT_PARTITION
-		path: CONNECTIONS_FOLDER
-	.then (files) ->
-		# The required file already exists
-		if _.includes(files, 'resin-wifi')
-			return null
+			# Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
+			if _.includes(files, 'resin-sample.ignore')
+				return imagefs.copy
+					image: target
+					partition: bootPartition
+					path: "#{CONNECTIONS_FOLDER}/resin-sample.ignore"
+				,
+					image: target
+					partition: bootPartition
+					path: "#{CONNECTIONS_FOLDER}/resin-wifi"
+				.thenReturn(null)
 
-		# Fresh image, new mode, accoding to https://github.com/balena-os/meta-balena/pull/770/files
-		if _.includes(files, 'resin-sample.ignore')
-			return imagefs.copy
+			# Legacy mode, to be removed later
+			# We return the file name override from this branch
+			# When it is removed the following cleanup should be done:
+			# * delete all the null returns from this method
+			# * turn `getConfigurationSchema` back into the constant, with the connection filename always being `resin-wifi`
+			# * drop the final `then` from this method
+			# * adapt the code in the main listener to not receive the config from this method, and use that constant instead
+			if _.includes(files, 'resin-sample')
+				return 'resin-sample'
+
+			# In case there's no file at all (shouldn't happen normally, but the file might have been removed)
+			return imagefs.writeFile
 				image: target
-				partition: BOOT_PARTITION
-				path: "#{CONNECTIONS_FOLDER}/resin-sample.ignore"
-			,
-				image: target
-				partition: BOOT_PARTITION
+				partition: bootPartition
 				path: "#{CONNECTIONS_FOLDER}/resin-wifi"
+			, CONNECTION_FILE
 			.thenReturn(null)
 
-		# Legacy mode, to be removed later
-		# We return the file name override from this branch
-		# When it is removed the following cleanup should be done:
-		# * delete all the null returns from this method
-		# * turn `getConfigurationSchema` back into the constant, with the connection filename always being `resin-wifi`
-		# * drop the final `then` from this method
-		# * adapt the code in the main listener to not receive the config from this method, and use that constant instead
-		if _.includes(files, 'resin-sample')
-			return 'resin-sample'
-
-		# In case there's no file at all (shouldn't happen normally, but the file might have been removed)
-		return imagefs.writeFile
-			image: target
-			partition: BOOT_PARTITION
-			path: "#{CONNECTIONS_FOLDER}/resin-wifi"
-		, CONNECTION_FILE
-		.thenReturn(null)
-
-	.then (connectionFileName) ->
-		return getConfigurationSchema(connectionFileName)
+		.then (connectionFileName) ->
+			return getConfigurationSchema(bootPartition, connectionFileName)
 
 removeHostname = (schema) ->
 	_ = require('lodash')
