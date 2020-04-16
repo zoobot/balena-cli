@@ -134,13 +134,14 @@ export class LivepushManager {
 					return;
 				}
 
-				const livepush = await Livepush.init(
-					dockerfile,
+				const livepush = await Livepush.init({
+					dockerfileContent: dockerfile,
 					context,
-					container.containerId,
-					this.imageIds[serviceName],
-					this.docker,
-				);
+					containerId: container.containerId,
+					stageImages: this.imageIds[serviceName],
+					docker: this.docker,
+				});
+
 				const buildVars = buildTask.buildMetadata.getBuildVarsForService(
 					buildTask.serviceName,
 				);
@@ -379,13 +380,14 @@ export class LivepushManager {
 			buildLogs[serviceName] = buildLog;
 			const stageImages = LivepushManager.getMultistageImageIDs(buildLogs);
 
-			instance.livepush = await Livepush.init(
-				buildTask.dockerfile!,
-				buildTask.context!,
-				container.containerId,
-				stageImages[serviceName],
-				this.docker,
-			);
+			// FIXME: This probably needs a new Dockerfile setup
+			instance.livepush = await Livepush.init({
+				dockerfileContent: buildTask.dockerfile!,
+				context: buildTask.context!,
+				containerId: container.containerId,
+				stageImages: stageImages[serviceName],
+				docker: this.docker,
+			});
 			this.assignLivepushOutputHandlers(serviceName, instance.livepush);
 		} catch (e) {
 			this.logger.logError(`There was an error rebuilding the service: ${e}`);
