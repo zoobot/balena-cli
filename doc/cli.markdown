@@ -2074,7 +2074,8 @@ name, slug or numeric ID of the application to preload
 
 The commit hash for a specific application release to preload, use "current" to specify the current
 release (ignored if no appId is given). The current release is usually also the latest, but can be
-manually pinned using https://github.com/balena-io-projects/staged-releases .
+manually pinned through the web dashboard or API or scripts as documented at:
+https://www.balena.io/docs/learn/more/masterclasses/fleet-management/#6-release-policy
 
 #### -s, --splash-image SPLASH-IMAGE
 
