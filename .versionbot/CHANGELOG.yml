@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add `docs` folder for landrbot integration
+      hash: 0c2ea126c8c6641f8e88bd3dccb14a25bd2f2695
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Scott Lowe <scott@balena.io>
+        signed-off-by: Scott Lowe <scott@balena.io>
+      author: Scott Lowe
+      nested: []
+  version: 12.51.4
+  date: 2021-11-17T15:52:43.074Z
+- commits:
     - subject: 'deploy: Ensure the release fails if an image''s digest (hash) is missing'
       hash: 23b07f8a41c82c0b23a38bac55cbd3874300dd58
       body: ''
