@@ -1,4 +1,21 @@
 - commits:
+    - subject: Test balena push with docker-compose using symlinks
+      hash: 989a2e35a298ebb0b2c925e23b1ef0de5e7276b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: >-
+          https://www.flowdock.com/app/rulemotion/i-cli/threads/Yo53CeVqtfSoo4Dw_qO8B0ZD2Nu
+        see: >-
+          https://www.flowdock.com/app/rulemotion/i-cli/threads/Yo53CeVqtfSoo4Dw_qO8B0ZD2Nu
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 12.55.6
+  date: 2021-12-14T11:49:33.721Z
+- commits:
     - subject: Drop unnecessary directory list created during balena deploy & push
       hash: f2858801350077305a92a6ba32659a46dd3e1e39
       body: ''
