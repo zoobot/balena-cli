@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'v13 release: Turn on v13 feature switch'
+      hash: a6c546d8168a304aecc82bcda0206a28991130ad
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+    - subject: 'v13 release: Require Node.js v12 (engines.node setting in package.json)'
+      hash: 4884926c37aa432a626488659b293f7c0b71f064
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Paulo Castro
+      nested: []
+  version: 13.0.0
+  date: 2021-12-17T16:48:53.775Z
+- commits:
     - subject: 'push: Remove hardcoded ''balenaCloud'' in console message'
       hash: e7ddd07b7b472cf5a46806f698daed6749bed4f5
       body: ''
