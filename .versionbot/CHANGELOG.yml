@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'v14 preparations: Fix TypeError produced by ''npx oclif manifest'''
+      hash: d1e66bc1a529892503d29f679676df48b7221451
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+  version: 13.1.8
+  date: 2022-01-08T01:29:55.645Z
+- commits:
     - subject: Update to pkg 5
       hash: 879d98ef98de9b252aa4b747cf0c69a17fe556f6
       body: ''
