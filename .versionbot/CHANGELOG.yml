@@ -1,4 +1,30 @@
 - commits:
+    - subject: Update pkg configuration for removed balena-sync dependency
+      hash: 8fd7dfcc2c92eda43d30d57568af57d7821ee4fa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Paulo Castro
+      nested: []
+    - subject: Inline functions from `balena-sync` module and drop dependency
+      hash: 8b652793badc8f8086a62034449b9f37c327353e
+      body: |
+        The `balena-sync` module was being used exclusively for its ability to
+        discover local balena devices, and nothing else. By inlining this
+        functionality in the CLI, we can drop the dependency on the sync module
+        and open up a path to deprecate `balena-sync`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 13.1.13
+  title: "'Inline functions from  module and drop dependency'"
+  date: 2022-02-09T19:54:44.416Z
+- commits:
     - subject: "preload: Stop using the deprecated /device-types/v1 API endpoints"
       hash: 31eb734af16d805bbd4731a725eb3b826dcd2f42
       body: |
