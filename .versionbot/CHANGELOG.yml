@@ -1,4 +1,30 @@
 - commits:
+    - subject: Fix surfacing incompatible device type errors as not recognized
+      hash: 7528ea0864b9713637c4ebc4816c1b5f37de3cd6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+    - subject: Error when the device type and image parameters do not match
+      hash: a2ea9f7bff51459db1f0db3781b5b63318b3adcd
+      body: ""
+      footer:
+        Resolves: "#2537"
+        resolves: "#2537"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.3
+  title: "'Surface sdk incompatible dt errors'"
+  date: 2022-11-08T14:48:43.436Z
+- commits:
     - subject: Stop waiting for the analytics response
       hash: 1c7d9255ae5333ff717b9f32ef7adf1690cbb163
       body: ""
