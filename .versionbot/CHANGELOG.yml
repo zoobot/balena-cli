@@ -1,4 +1,20 @@
 - commits:
+    - subject: Error when the device type and image parameters do not match
+      hash: a2ea9f7bff51459db1f0db3781b5b63318b3adcd
+      body: ""
+      footer:
+        Resolves: "#2537"
+        resolves: "#2537"
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+        signed-off-by: Thodoris Greasidis <thodoris@balena.io>
+      author: Thodoris Greasidis
+      nested: []
+  version: 14.5.3
+  title: "'Error when the device type and image parameters do not match'"
+  date: 2022-11-08T13:21:35.787Z
+- commits:
     - subject: Stop waiting for the analytics response
       hash: 1c7d9255ae5333ff717b9f32ef7adf1690cbb163
       body: ""
